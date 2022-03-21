@@ -1,5 +1,4 @@
-CXX=g++-7
-CXXFLAGS=-std=c++17 -Wall -Werror
+CXXFLAGS=-std=c++20 -Wall -Werror
 
 run: score_spread
 	./score_spread && ./surf.py

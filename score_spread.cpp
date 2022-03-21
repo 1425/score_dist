@@ -281,6 +281,14 @@ vector<Match> matches(Fetcher &fetcher,Year year){
 
 using Match_score=pair<int,int>;
 
+Match_score to_match_score(Match_Score_Breakdown_2022 const& a){
+	return make_pair(a.red.totalPoints,a.blue.totalPoints);
+}
+
+Match_score to_match_score(Match_Score_Breakdown_2020 const& a){
+	return make_pair(a.red.totalPoints,a.blue.totalPoints);
+}
+
 int score(Match_Score_Breakdown_2017_Alliance const& a){
 	return a.totalPoints;
 }
@@ -417,7 +425,7 @@ int graph_odds(Fetcher &fetcher,Year year){
 	return 0;
 }
 
-int main(){
+int main1(){
 	string tba_key;
 	{
 		std::ifstream f("../tba/auth_key");
@@ -426,9 +434,19 @@ int main(){
 	}
 	Cached_fetcher f{Fetcher{Nonempty_string{tba_key}},Cache{"../tba/cache.db"}};
 
-	auto years=range(Year{1992},Year{2018});
+	auto years=range(Year{1992},Year{2023});
 	for(auto year:years){
 		PRINT(year);
 		graph_odds(f,year);
+	}
+	return 0;
+}
+
+int main(){
+	try{
+		return main1();
+	}catch(Decode_error const& a){
+		cout<<a<<"\n";
+		return 1;
 	}
 }
